@@ -1,14 +1,21 @@
-Yii 2 Dockerized
-================
+# #Yii 2 Dockerized
+
+#===================
+
+based on https://github.com/codemix/yii2-dockerized
+
+!Private tutorial, not for public
+
+---
 
 A template for docker based Yii 2 applications.
 
- * Ephemeral container, configured via environment variables
- * Application specific base image (Nginx + PHP-FPM)
- * Optional local configuration overrides for development/debugging (git-ignored)
- * Base scaffold code for login, signup and forgot-password actions
- * Flat configuration file structure
- * Optional cron integration for periodic jobs
+- Ephemeral container, configured via environment variables
+- Application specific base image (Nginx + PHP-FPM)
+- Optional local configuration overrides for development/debugging (git-ignored)
+- Base scaffold code for login, signup and forgot-password actions
+- Flat configuration file structure
+- Optional cron integration for periodic jobs
 
 > **Note:** The included example base image is now based on Alpine Linux and
 > uses [s6-overlay](https://github.com/just-containers/s6-overlay) to supervise
@@ -24,19 +31,19 @@ The core idea of this template is that you build a bespoke **base image**
 for your application that meets your project's exact requirements. This image
 contains:
 
- * PHP runtime environment (e.g. Nginx + PHP-FPM)
- * PHP extensions
- * Composer packages
+- PHP runtime environment (e.g. Nginx + PHP-FPM)
+- PHP extensions
+- Composer packages
 
 The base image will hardly ever change unless
 
- * you want to upgrade to a newer PHP or Yii version or
- * you want to add a missing PHP extension or composer package.
+- you want to upgrade to a newer PHP or Yii version or
+- you want to add a missing PHP extension or composer package.
 
 Its configuration can be found in the `./build` directory:
 
- * `Dockerfile` adds PHP extensions and required system packages
- * `composer.json` and `composer.lock` list composer packages
+- `Dockerfile` adds PHP extensions and required system packages
+- `composer.json` and `composer.lock` list composer packages
 
 The actual **app image** extends from this base image and uses `./Dockerfile`
 in the main directory. It basically only adds your app sources and productive
@@ -102,24 +109,21 @@ docker-compose run --rm composer update
 This will update `composer.json` and `composer.lock` respectively. You can
 also run other composer commands, of course.
 
-
 **You now have to rebuild your base image!** (see below).
-
 
 > **Note:** As docker's composer image may not meet the PHP requirements of all
 > your packages you may have to add `--ignore-platform-reqs` to be able to
 > install some packages.
 
-
 ## 2.3 Build the Base Image
 
 Before you continue with building the base image you should:
 
- * Set a tag name for the base image in `./build/docker-compose.yml`
- * Use the same tag name in `./Dockerfile` in the main directory
- * Optionally add more PHP extensions or system packages in `./build/Dockerfile`
- * Choose a timezone in `./build/Dockerfile`. This is only really relevant if
-   you want to enable crond, to let the jobs run at correct local times.
+- Set a tag name for the base image in `./build/docker-compose.yml`
+- Use the same tag name in `./Dockerfile` in the main directory
+- Optionally add more PHP extensions or system packages in `./build/Dockerfile`
+- Choose a timezone in `./build/Dockerfile`. This is only really relevant if
+  you want to enable crond, to let the jobs run at correct local times.
 
 To start you first need to create an initial `composer.lock`. So go to the
 `./build` directory and run:
@@ -141,7 +145,6 @@ Now you could upload that image to your container registry.
 At this point you may want to modify our application template, add some default
 configuration and remove those parts that you don't need. Afterwards you are
 ready for the initial commit to your project repository.
-
 
 # 3 Local Development
 
@@ -189,7 +192,6 @@ docker-compose exec web chmod g+rwx web/assets runtime var/sessions
 When done, you can access the new app from
 [http://localhost:8080](http://localhost:8080).
 
-
 ## 3.2 Development Session
 
 A development session will usually go like this:
@@ -224,7 +226,6 @@ docker-compose exec web ./yiic migrate/create add_column_name
 > system:
 >
 >     chown -R mike migrations/*
->
 
 ### 3.2.2 Adding or Updating Composer Packages
 
@@ -256,7 +257,6 @@ docker-compose exec web cp -rf /var/www/vendor ./
 > **Note:** Inside the container composer packages live in `/var/www/vendor`
 > instead of the app's `./vendor` directory. This way we don't override the
 > vendor directory when we map the local app directory into the container.
-
 
 ### 3.2.3 Configuring Cron Jobs
 
